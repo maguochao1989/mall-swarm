@@ -9,3 +9,7 @@ target/
 .settings/
 .classpath
 .project
+
+
+mall-db/
+.vscode/

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.macro.mall.dao.PmsProductCategoryDao">
-    <resultMap id="listWithChildrenMap" type="com.macro.mall.dto.PmsProductCategoryWithChildrenItem"
+    <!-- <resultMap id="listWithChildrenMap" type="com.macro.mall.dto.PmsProductCategoryWithChildrenItem"
                extends="com.macro.mall.mapper.PmsProductCategoryMapper.BaseResultMap">
         <collection property="children" resultMap="com.macro.mall.mapper.PmsProductCategoryMapper.BaseResultMap"
                     columnPrefix="child_"></collection>
@@ -14,5 +14,33 @@
             c2.name child_name
         from pms_product_category c1 left join pms_product_category c2 on c1.id = c2.parent_id
         where c1.parent_id = 0
+    </select> -->
+
+    <!-- 一级分类 -->
+    <resultMap id="listWithChildrenMap" type="com.macro.mall.dto.PmsProductCategoryWithChildrenItem" extends="com.macro.mall.mapper.PmsProductCategoryMapper.BaseResultMap">
+        <collection property="children" ofType="com.macro.mall.mapper.PmsProductCategoryWithChildrenItemMapper.BaseResultMap"        column="id"            select="selectTwo"  ></collection>
+    </resultMap>
+    
+    <resultMap id="resultTwo"           type="com.macro.mall.dto.PmsProductCategoryWithChildrenItem" extends="com.macro.mall.mapper.PmsProductCategoryMapper.BaseResultMap">
+        <collection property="children" ofType="com.macro.mall.mapper.PmsProductCategoryWithChildrenItemMapper.BaseResultMap"        column="id"   select="selectThree"></collection>
+    </resultMap>
+    
+    <resultMap id="resultThree"         type="com.macro.mall.dto.PmsProductCategoryWithChildrenItem" extends="com.macro.mall.mapper.PmsProductCategoryMapper.BaseResultMap">
+    
+    </resultMap>
+
+    <select id="listWithChildren" resultMap="listWithChildrenMap">
+        select id,name from pms_product_category pc where pc.parent_id=0
     </select>
+
+    <select id="selectTwo" resultMap="resultTwo">
+        select id,parent_id,name from pms_product_category pc where pc.parent_id=#{id}
+    </select>
+
+    <select id="selectThree" resultMap="resultThree">
+        select  pcar.id id,pa.name name from pms_product_category_attribute_relation pcar 
+        left join pms_product_attribute pa on pa.id = pcar.product_attribute_id 
+        WHERE pcar.product_category_id=#{id}
+    </select>
+    
 </mapper>

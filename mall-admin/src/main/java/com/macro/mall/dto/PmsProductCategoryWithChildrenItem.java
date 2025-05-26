@@ -14,5 +14,6 @@ public class PmsProductCategoryWithChildrenItem extends PmsProductCategory {
     @Getter
     @Setter
     @Schema(title = "子级分类")
-    private List<PmsProductCategory> children;
+    // private List<PmsProductCategory> children;
+    private List<PmsProductCategoryWithChildrenItem> children;
 }

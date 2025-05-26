@@ -1,8 +1,19 @@
 spring:
   cloud:
+    sentinel:
+      transport:
+        dashboard: http://localhost:8858
     nacos:
       discovery:
         server-addr: http://localhost:8848
       config:
         server-addr: http://localhost:8848
         file-extension: yaml
+        ext-config: 
+        - data-id: common.yml
+          group: DEFAULT_GROUP
+          refresh: true
+    openfeign: 
+      circuitbreaker: 
+        enabled: true 
+
