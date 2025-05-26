@@ -124,12 +124,12 @@ docker run -d \
 -p 8899:8899 \
 docker.1ms.run/shine10076/elastic-job-lite-console:2.1.5
 
-
+## zkui 
 docker run -d \
 --name zkui-01 \
 --network nacos-net \
 --privileged=true \
 --restart=always \
 -p 9090:9090 \
--e ZKUI_ZK_SERVER=zoo-01:2181 \
+-e _ZK_SERVER=zoo-01:2181 \
 docker.1ms.run/fansys/zkui:latest
